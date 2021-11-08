@@ -36,11 +36,11 @@ resources = {
 # dispensed. The prompt should show again to serve the next customer. 
 money = 0
 
-def make_report(money):
-    print(f"Water: {resources['water']}")
-    print(f"Milk: {resources['milk']}")
-    print(f"Coffee: {resources['coffee']}")
-    print(f"Money: $ {money}")
+def make_report(money, resources):
+    for resource in resources:
+        print(f"{resource.title()}: {resources[resource]}")
+    print(f"Money: {money}")
+
 
 def insert_money():
     print("Please insert coins.")
@@ -48,32 +48,65 @@ def insert_money():
     dimes = int(input("How many dimes?: "))
     nickles = int(input("How many nickles?: "))
     pennies = int(input("How many pennies?: "))
-    count_coins(quarters, nickles, dimes, pennies)
+    return count_coins(quarters, nickles, dimes, pennies)
     
-def make_espresso():
-    insert_money()
+# def make_espresso():
+#     insert_money()
 
 def count_coins(quarters, nickles, dimes, pennies):
     total_inserted = 0.25 * quarters + 0.05 * nickles + 0.1 * dimes + 0.01 * pennies
     return total_inserted
 
+
+def check_price(inserted_money, drink_price):
+    if inserted_money < drink_price:
+        print("Sorry, that's not enough money. Money refunded.")
+        enough_money = False
+        return enough_money
+    else:
+        change = inserted_money - drink_price
+        print(f"Here is ${change} in change")
+        enough_money = True
+        return enough_money
+        
+def make_coffee(drink, resources):
+    # check if there are resources to make chosen drink. If not, write what is missing and return to prompt
+    
+    for resource in resources:
+        print(MENU[drink]["ingredients"][resource]) 
+        if MENU[drink]["ingredients"][resource] >= resources[resource]:
+            return f"There is not enough {resource}"
+    # process coins
+    inserted_money = insert_money()
+    drink_price = MENU[drink]["cost"]
+    print(f"price: {drink_price}")
+    print(inserted_money)
+    if check_price(inserted_money, drink_price):
+        print(f"Here is your {drink}. Enjoy!")
+    ## prompt insert coins
+    ##calculate coins
+    
+
 def coffee_machine():
+    
     drink = input("​What would you like? (espresso/latte/cappuccino): ").lower()
 
-    if drink == "espresso":
-        make_espresso()
-    elif drink == "latte":
-        make_latte()
-    elif drink == "cappucino":
-        make_cappucinou()
+    if drink == "espresso" or drink == "latte" or drink == "cappuccino":
+        make_coffee(drink, resources)
     elif drink == "report":
-        make_report(money)
+        make_report(money, resources)
     elif drink == "off":
-        return    
+        return False      
     else:
         print("That's not a button, try again. ")
 
-coffee_machine()
+
+machine_on = True
+while machine_on:
+    machine_on = coffee_machine()
+
+# print(MENU["espresso"]["ingredients"])
+
 
     
     
