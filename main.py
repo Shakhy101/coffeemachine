@@ -2,6 +2,7 @@ MENU = {
     "espresso": {
         "ingredients": {
             "water": 50,
+            "milk" : 0,
             "coffee": 18,
         },
         "cost": 1.5,
@@ -93,12 +94,15 @@ def coffee_machine():
 
     if drink == "espresso" or drink == "latte" or drink == "cappuccino":
         make_coffee(drink, resources)
+        return True
     elif drink == "report":
         make_report(money, resources)
+        return True
     elif drink == "off":
         return False      
     else:
         print("That's not a button, try again. ")
+        return True
 
 
 machine_on = True
