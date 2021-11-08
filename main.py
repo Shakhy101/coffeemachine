@@ -70,7 +70,7 @@ def check_price(inserted_money, drink_price):
         enough_money = True
         return enough_money
         
-def make_coffee(drink, resources):
+def make_coffee(drink, resources, money):
     # check if there are resources to make chosen drink. If not, write what is missing and return to prompt
     
     for resource in resources:
@@ -84,6 +84,9 @@ def make_coffee(drink, resources):
     print(inserted_money)
     if check_price(inserted_money, drink_price):
         print(f"Here is your {drink}. Enjoy!")
+        for resource in resources:
+            resources[resource] = resources[resource] - MENU[drink]["ingredients"][resource]
+        money += drink_price 
     ## prompt insert coins
     ##calculate coins
     
@@ -93,7 +96,7 @@ def coffee_machine():
     drink = input("​What would you like? (espresso/latte/cappuccino): ").lower()
 
     if drink == "espresso" or drink == "latte" or drink == "cappuccino":
-        make_coffee(drink, resources)
+        make_coffee(drink, resources, money)
         return True
     elif drink == "report":
         make_report(money, resources)
