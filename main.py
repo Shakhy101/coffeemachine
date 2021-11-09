@@ -2,7 +2,7 @@ MENU = {
     "espresso": {
         "ingredients": {
             "water": 50,
-            "milk" : 0,
+            "milk": 0,
             "coffee": 18,
         },
         "cost": 1.5,
@@ -46,22 +46,23 @@ def check_resources(user_drink):
             print(f"Sorry there is not enough {resource}")
             return False
     return True
-                
 
-def coffee_machine(user_drink, money):    
 
-        if user_drink == "off":
-            return False
-        elif user_drink == "report":
-            print_report(resources, money)
-            return True
-        else:
-            check_resources(user_drink)
-            return True
+def coffee_machine(user_drink, money):
+
+    if user_drink == "off":
+        return False
+    elif user_drink == "report":
+        print_report(resources, money)
+        return True
+    else:
+        
+        return True
 
 
 def count_coins(quarters, nickles, dimes, pennies):
-    total_inserted = 0.25 * quarters + 0.05 * nickles + 0.1 * dimes + 0.01 * pennies
+    total_inserted = 0.25 * quarters + 0.05 * \
+        nickles + 0.1 * dimes + 0.01 * pennies
     return round(total_inserted, 2)
 
 
@@ -80,19 +81,21 @@ def check_price(inserted_money, drink_price):
         enough_money = False
         return enough_money
     else:
-        change = round (inserted_money - drink_price, 2)
+        change = round(inserted_money - drink_price, 2)
         print(f"Here is ${change} in change")
         enough_money = True
-        return enough_money       
-   
-money = 0        
+        return enough_money
+
+
+money = 0
 machine_on = True
 available_drinks = []
 for available_drink in MENU:
     available_drinks.append(available_drink)
 while machine_on:
     inserted_money = 0
-    user_drink = input("​What would you like? (espresso/latte/cappuccino): ").lower()
+    user_drink = input(
+        "​What would you like? (espresso/latte/cappuccino): ").lower()
     machine_on = coffee_machine(user_drink, money)
     if user_drink in available_drinks:
         if check_resources(user_drink):
@@ -101,9 +104,6 @@ while machine_on:
             if check_price(inserted_money, drink_price):
                 print(f"Here is your {user_drink}. Enjoy!")
                 for resource in resources:
-                    resources[resource] = resources[resource] - MENU[user_drink]["ingredients"][resource]
+                    resources[resource] = resources[resource] - \
+                        MENU[user_drink]["ingredients"][resource]
                 money += drink_price
-            
-        
-        
- 
